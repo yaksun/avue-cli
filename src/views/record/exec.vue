@@ -144,6 +144,7 @@ export default {
      created(){
       this.handleSwitch();
       this.$store.dispatch('GetGoodsInfo')
+       this.$store.dispatch('GetSupplierInfo')
     },
     methods: {
       handleSwitch(){

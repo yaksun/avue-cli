@@ -1,11 +1,9 @@
-import { setStore, getStore } from '@/util/store'
-
 import { getGoodsInfo, getSupplierInfo} from '@/api/shop'
 
 const shop_info = {
         state:{
-            goodsInfo:getStore({name:'goodsInfo'}) || [],
-            supplierInfo:getStore({name:'supplierInfo'}) || []
+            goodsInfo: [],
+            supplierInfo: []
         },
       
       
@@ -14,7 +12,7 @@ const shop_info = {
                 return new Promise((resolve, reject) => {
                   getGoodsInfo().then((res) => {
                     const data = res.data.data;
-                    console.log(data)
+               
                     commit('SET_GOODSIFNO', data.goods);
                  
                     resolve(data);

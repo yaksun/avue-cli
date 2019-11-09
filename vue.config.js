@@ -2,7 +2,7 @@
 let baseUrl = './'
 module.exports = {
   baseUrl: baseUrl, // 根据你的实际情况更改这里
-  // baseUrl:'http://192.168.1.4:8080',
+ 
   lintOnSave: true,
   productionSourceMap: false,
   chainWebpack: (config) => {
@@ -29,11 +29,12 @@ module.exports = {
   // devServer: {
   //   proxy: {
   //       '/api': {
-  //           target: 'http://127.0.0.1:8080',
+  //           target: 'http://192.168.1.4:8080',
   //           ws: true,
   //           pathRewrite: {
   //               '^/api': '/api'
-  //           }
+  //           },
+  //           changeOrigin:true
   //       },
   //   }
   // }
