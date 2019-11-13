@@ -143,6 +143,7 @@ export default {
 
      created(){
       this.handleSwitch();
+<<<<<<< HEAD
         // 获取商品信息
       this.$store.dispatch('GetGoodsInfo')
     //   获取供应商信息
@@ -151,6 +152,11 @@ export default {
         // this.data2 = this.goodsInfo
         // this.data1 = this.supplierInfo
 
+=======
+    
+      this.$store.dispatch('GetGoodsInfo')
+    //    this.$store.dispatch('GetSupplierInfo')
+>>>>>>> b14c773dbc7157b4b1c6c6851074a440dae68c43
     },
     
     methods: {
