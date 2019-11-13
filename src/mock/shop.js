@@ -59,9 +59,15 @@ const supplier = [
 
 export default ({ mock }) => {
   if (!mock) return;
-  Mock.mock('/shop/getGoods', 'get', () => {
+ 
+  // Mock.mock('/shop/getGoods', 'get', {
+  //   data:{goods}
+    
+  // })
+
+  Mock.mock('/shop/getGoods', 'get', ()=>{
     return {
-      data: goods || []
+      data:goods || []
     }
   })
   Mock.mock('/shop/getSupplier', 'get', () => {

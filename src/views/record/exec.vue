@@ -42,9 +42,10 @@ export default {
             return {
                 
                 form:{},
+                data1:[],
+                data2:[],
+                option:{},
                 list:[],
-                list1:[],
-             
 
                    options: [
                        {
@@ -57,12 +58,11 @@ export default {
                         }
                     ],
 
-                     value: 'type2',
+                 value: 'type2',
 
-                     data1:[],
-                     data2:[],
-                  
-                      option1: {
+                    
+                //   商品信息表头
+                      option2: {
                       
                         column: [
                             {
@@ -96,8 +96,8 @@ export default {
                         
                         ]
                    },
-
-                     option2: {
+                // 货商信息表头
+                     option1: {
                       
                         column: [
                               {
@@ -121,8 +121,8 @@ export default {
            
 
         
-          ]
-        },
+                 ]
+               },
 
           
             }
@@ -143,22 +143,26 @@ export default {
 
      created(){
       this.handleSwitch();
+        // 获取商品信息
       this.$store.dispatch('GetGoodsInfo')
+    //   获取供应商信息
        this.$store.dispatch('GetSupplierInfo')
+
+        // this.data2 = this.goodsInfo
+        // this.data1 = this.supplierInfo
+
     },
+    
     methods: {
       handleSwitch(){
         this.type=!this.type;
         if(this.type){
-          this.option=this.option1;
-          this.list = (this.list1 !==undefined && this.list1.length > 0)  ? this.list1 : this.data1;
+          this.option=this.option2;
         }else{
-           this.option=this.option2;
-           this.list = (this.list1 !==undefined && this.list1.length > 0)  ? this.list1 : this.data2;
+           this.option=this.option1;
         }
 
-        console.log(this.list1)
-        console.log(this.list)
+        
       },
 
         getLabel(){

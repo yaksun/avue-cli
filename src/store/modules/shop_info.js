@@ -12,7 +12,7 @@ const shop_info = {
                 return new Promise((resolve, reject) => {
                   getGoodsInfo().then((res) => {
                     const data = res.data.data;
-               
+                    console.log(data)
                     commit('SET_GOODSIFNO', data.goods);
                  
                     resolve(data);
@@ -24,7 +24,8 @@ const shop_info = {
               GetSupplierInfo ({ commit }) {
                 return new Promise((resolve, reject) => {
                   getSupplierInfo().then((res) => {
-                    const data = res.data.data.data;
+                    const data = res.data.data;
+                    console.log(data)
                     commit('SET_SUPPLIERIFNO', data.supplier);
                  
                     resolve(data);
