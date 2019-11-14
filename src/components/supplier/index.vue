@@ -4,6 +4,7 @@
     </div>
 </template>
 <script>
+import {mapGetters} from 'vuex'
 export default {
     data() {
       return {
@@ -11,6 +12,7 @@ export default {
           pageSize: 20
         },
         option: {
+           menuType:'icon',
           border: true,
           index: true,
           expandLevel: 3,
@@ -39,29 +41,15 @@ export default {
           ]
         },
         data: [
-                {
-                    id:'1',
-                    arrange:'9527',
-                    board:'兰州东部鞋城101号',
-                    contact:'8650805'
-
-                },
-                {
-                    id:'2',
-                    arrange:'9526',
-                    board:'兰州东部鞋城103号',
-                    contact:'8650805'
-
-                },
-                {
-                    id:'1',
-                    arrange:'9528',
-                    board:'兰州东部鞋城104号',
-                    contact:'8650805'
-
-                }
+                
             ]
       }
+    },
+    mounted(){
+      this.data = this.supplierInfo
+    },
+       computed:{
+       ...mapGetters(['supplierInfo'])
     },
     methods: {
       onLoad(page) {

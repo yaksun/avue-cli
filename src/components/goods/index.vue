@@ -1,16 +1,21 @@
 <template>
     <div>
-        <avue-crud :option="option" :data="data" :page="page" @on-load="onLoad"></avue-crud>
+        <avue-crud :option="option" :data="data" :page="page" @on-load="onLoad" v-model="obj" @row-save="addGoods"></avue-crud>
     </div>
 </template>
 <script>
+import {mapGetters} from 'vuex'
 export default {
     data() {
       return {
         page: {
           pageSize: 20
         },
+        data:[],
+        obj:{},
+       
         option: {
+           menuType:'icon',
           border: true,
           index: true,
           expandLevel: 3,
@@ -38,7 +43,12 @@ export default {
             },
             {
               label:'供应商',
-              prop:'goods_supplier'
+              prop:'goods_supplier',
+               type: "icon-select",
+              iconList: [{
+                label: '基本图表',
+                list: ['23','34','56']
+              }]
             }
 
            
@@ -46,32 +56,24 @@ export default {
         
           ]
         },
-        data: [
-                {
-                    id:'1',
-                    goods_name:'路兹贝尔',
-                    goods_number:'7499',
-                    goods_color:'黑',
-                    goods_size:'37',
-                    goods_supplier:'兰州东部鞋城103号'
-
-                },
-                {
-                    id:'2',
-                    goods_name:'路兹贝尔',
-                    goods_number:'7499',
-                    goods_color:'黑',
-                    goods_size:'36',
-                    goods_supplier:'兰州东部鞋城277号'
-
-                },
-            ]
+        
       }
+    },
+    mounted(){
+       this.data = this.goodsInfo
+      
+
+    },
+       computed:{
+       ...mapGetters(['goodsInfo','supplierInfo'])
     },
     methods: {
       onLoad(page) {
         //模拟分页
         this.page.total = 40
+      },
+      addGoods(){
+        console.log(this.obj)
       }
     }
 }

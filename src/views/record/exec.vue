@@ -142,26 +142,25 @@ export default {
     },
 
      created(){
-      this.handleSwitch();
-
-        // 获取商品信息
-      this.$store.dispatch('GetGoodsInfo')
-    //   获取供应商信息
-       this.$store.dispatch('GetSupplierInfo')
-
-        // this.data2 = this.goodsInfo
-        // this.data1 = this.supplierInfo
-    
      
+            this.handleSwitch();
     },
+  
     
     methods: {
       handleSwitch(){
+        
+
         this.type=!this.type;
         if(this.type){
           this.option=this.option2;
+        //   接收state中的商品档案信息
+          this.list = this.goodsInfo
         }else{
            this.option=this.option1;
+        //    接收state中的供货商档案信息
+           this.list =  this.supplierInfo
+    
         }
 
         
@@ -200,11 +199,13 @@ export default {
 
         // 导入execl
         handleChange(file, fileLis) {
+
+            console.log(file,fileLis)
         this.$export.xlsx(file.raw)
             .then(data => {
 
-                // console.log(data.results)
-            this.list1=data.results;
+                console.log(data.results)
+            // this.list = data.results;
             })
         }
     }

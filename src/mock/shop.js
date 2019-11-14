@@ -68,13 +68,17 @@ export default ({ mock }) => {
 
   Mock.mock('/shop/getGoods', 'get', ()=>{
     return {
-      data:goods || []
+      data:{
+          goods : goods || []
+        }
     }
 
   })
   Mock.mock('/shop/getSupplier', 'get',()=>{
     return  {
-        data: supplier || []
+        data: {
+            supplier : supplier || []
+        }
     }
      
     

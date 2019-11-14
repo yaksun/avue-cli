@@ -11,9 +11,16 @@ export default {
     return {}
   },
   watch: {},
-  created () { },
+  created () {
+          // 获取商品信息
+      this.$store.dispatch('GetGoodsInfo')
+      //   获取供应商信息
+       this.$store.dispatch('GetSupplierInfo')
+   },
   methods: {},
-  computed: {}
+  computed: {
+    
+  }
 }
 </script>
 <style lang="scss">
