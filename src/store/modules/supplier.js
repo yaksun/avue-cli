@@ -1,18 +1,17 @@
 
-import { getSupplierInfo} from '@/api/shop'
+import { getSupplierInfo,addSupplier} from '@/api/shop'
 
 
 
 const supplier = {
         state:{
-            supplierInfo: [],
+            supplierInfo: []
            
         },
       
       
         actions:{
-       
-              
+             
               GetSupplierInfo ({ commit }) {
                 return new Promise((resolve, reject) => {
                   getSupplierInfo().then((res) => {
@@ -26,12 +25,26 @@ const supplier = {
                   })
                 })
               },
+
+              AddSupplier({commit},supplierItem){
+                return new Promise((resolve,reject)=>{
+                  addSupplier(supplierItem).then((res)=>{
+                    commit('ADD_SUPLLIER',supplierItem);
+                    resolve(res)
+                  }).catch(err =>{
+                    reject(err)
+                  })
+                })
+              }
         },
         mutations:{
         
           SET_SUPPLIERIFNO: (state, supplierInfo) => {
             state.supplierInfo = supplierInfo;
           },
+          ADD_SUPLLIER:(state,supplierItem)=>{
+            state.supplierInfo.push(supplierItem)
+          }
         }
 }
 

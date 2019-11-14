@@ -159,11 +159,12 @@ export default {
         }else{
            this.option=this.option1;
         //    接收state中的供货商档案信息
+        // console.log(this.supplierInfo)
            this.list =  this.supplierInfo
-    
+            
         }
 
-        
+        console.log(this.list)
       },
 
         getLabel(){

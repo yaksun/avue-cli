@@ -1,6 +1,13 @@
 <template>
     <div>
-        <avue-crud :option="option" :data="data" :page="page" @on-load="onLoad"></avue-crud>
+        <avue-crud 
+        :option="option"
+         :data="data" 
+         :page="page"
+          @on-load="onLoad"
+           @row-save="addSupplier"
+           v-model="obj"
+           ></avue-crud>
     </div>
 </template>
 <script>
@@ -10,6 +17,9 @@ export default {
       return {
         page: {
           pageSize: 20
+        },
+        obj:{
+
         },
         option: {
            menuType:'icon',
@@ -55,6 +65,10 @@ export default {
       onLoad(page) {
         //模拟分页
         this.page.total = 40
+      },
+      addSupplier(){
+        this.$store.dispatch('AddSupplier',this.obj)
+        // console.log(this.obj)
       }
     }
 }

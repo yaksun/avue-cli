@@ -11,4 +11,14 @@ export const getSupplierInfo = () => request({
 
 })
 
+export const addSupplier = (params) => request({
+    url: '/shop/addSupplier',
+    method: 'post',
+    data:{
+        params
+    }
+   
+
+})
+
 

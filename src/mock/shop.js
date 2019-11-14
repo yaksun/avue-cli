@@ -80,8 +80,13 @@ export default ({ mock }) => {
             supplier : supplier || []
         }
     }
-     
-    
-  })
+    })
+
+    Mock.mock('/shop/addSuplier', 'post',(params)=>{
+        supplier.push(params)
+        return  {
+            data: {supplier}
+        }
+        })
  
   }
