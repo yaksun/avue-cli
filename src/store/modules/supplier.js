@@ -1,5 +1,5 @@
 
-import { getSupplierInfo,addSupplier} from '@/api/shop'
+import { getSupplierInfo,addSupplier,updateSupplier,delSupplier} from '@/api/shop'
 
 
 
@@ -28,14 +28,33 @@ const supplier = {
 
               AddSupplier({commit},supplierItem){
                 return new Promise((resolve,reject)=>{
-                  addSupplier(supplierItem).then((res)=>{
-                    commit('ADD_SUPLLIER',supplierItem);
-                    resolve(res)
+                  addSupplier().then((res)=>{
+                    console.log(res)
+                   if(res.data.data.success){
+                        commit('ADD_SUPLLIER',supplierItem);
+                        resolve(res)
+
+                   }
+                   
                   }).catch(err =>{
                     reject(err)
                   })
                 })
-              }
+              },
+
+              UpdateSupplier({commit},{row,index}){
+                  return new Promise((resolve,reject)=>{
+                    updateSupplier().then((res)=>{
+                        if(res.data.data.success){
+                            commit('UPDATA_SUPPLIER',{row,index})
+                            resolve(res)
+                        }
+                    }).catch(err=>{
+                      reject(err)
+                    })
+                  })
+              },
+         
         },
         mutations:{
         
@@ -44,7 +63,10 @@ const supplier = {
           },
           ADD_SUPLLIER:(state,supplierItem)=>{
             state.supplierInfo.push(supplierItem)
-          }
+          },
+          UPDATA_SUPPLIER:(state,{row,index})=>{
+            state.supplierInfo.splice(index,1,row)
+          },
         }
 }
 

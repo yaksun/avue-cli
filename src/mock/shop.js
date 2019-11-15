@@ -82,11 +82,30 @@ export default ({ mock }) => {
     }
     })
 
-    Mock.mock('/shop/addSuplier', 'post',(params)=>{
-        supplier.push(params)
+    Mock.mock('/shop/addSupplier', 'post',()=>{
+        // supplier.push(params)
         return  {
-            data: {supplier}
+            // data: {supplier}
+            data:{
+                success:1
+            }
         }
+
         })
+
+
+     
+    Mock.mock('/shop/updateSupplier', 'post',()=>{
+        return  {
+            data:{
+                success:1
+            }
+        }
+        })   
+
+
+           
+   
+ 
  
   }

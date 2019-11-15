@@ -6,6 +6,9 @@
          :page="page"
           @on-load="onLoad"
            @row-save="addSupplier"
+           @row-update="updateSupplier"
+         
+          ref="curd"
            v-model="obj"
            ></avue-crud>
     </div>
@@ -22,7 +25,7 @@ export default {
 
         },
         option: {
-           menuType:'icon',
+          //  menuType:'icon',
           border: true,
           index: true,
           expandLevel: 3,
@@ -30,6 +33,8 @@ export default {
           align: 'center',
             tree: true,
           labelWidth: 100,
+          // 删除按钮
+          // delBtn:false,
           column: [
               {
                 width:130,
@@ -57,6 +62,7 @@ export default {
     },
     mounted(){
       this.data = this.supplierInfo
+     
     },
        computed:{
        ...mapGetters(['supplierInfo'])
@@ -66,11 +72,59 @@ export default {
         //模拟分页
         this.page.total = 40
       },
-      addSupplier(){
-        this.$store.dispatch('AddSupplier',this.obj)
+      addSupplier(row,done){
+        console.log(row)
+        // var data = {};
+        // var arr = Object.keys(data);
+        // alert(arr.length == 0); //true 为空， false 不为空
+      // var arr = Object.keys(this.obj)
+      var arr = Object.keys(row)
+        if(arr.length>0){
+           this.$store.dispatch('AddSupplier',row).then(
+             ()=>{
+              //  关闭弹框
+               done()
+             }
+           )
+
+        }
         // console.log(this.obj)
+      },
+      updateSupplier(row,index,done){
+          this.$store.dispatch('UpdateSupplier',{row,index}).then(
+             ()=>{
+              //  关闭弹框
+               done()
+             }
+           )
+
+           
+
       }
+     
+    },
+
+     
+    handelDel(row,index){
+
+         this.$confirm(`是否确认删除序号为${row.arrange}`, "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+      })
+        .then(() => {
+          this.supplierInfo.splice(index, 1);
+          this.$message({
+            showClose: true,
+            message: "删除成功",
+            type: "success"
+          });
+        })
+        .catch(() => { });
+     
     }
+    
+
 }
 </script>
 <style lang="">
