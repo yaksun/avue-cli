@@ -5,6 +5,25 @@ export const getGoodsInfo = () => request({
    
 })
 
+export const addGoods = () => request({
+    url: '/shop/addGoods',
+    method: 'post',
+    
+})
+
+export const updateGoods = () => request({
+    url: '/shop/updateGoods',
+    method: 'post',
+    
+})
+
+export const delGoods = () => request({
+    url: '/shop/delGoods',
+    method: 'post',
+    
+})
+
+
 export const getSupplierInfo = () => request({
     url: '/shop/getSupplier',
     method: 'get',
@@ -19,6 +38,12 @@ export const addSupplier = () => request({
 
 export const updateSupplier = () => request({
     url: '/shop/updateSupplier',
+    method: 'post',
+    
+})
+
+export const delSupplier = () => request({
+    url: '/shop/delSupplier',
     method: 'post',
     
 })

@@ -1,6 +1,31 @@
 <template>
     <div>
-        <avue-crud :option="option" :data="data" :page="page" @on-load="onLoad" v-model="obj" @row-save="addGoods"></avue-crud>
+        <avue-crud :option="option" 
+        :data="data" 
+        :page="page" 
+        @on-load="onLoad" 
+        v-model="obj"
+         @row-save="addGoods"
+          @row-update="updateGoods"
+         @row-del="handelDel"
+         >
+         
+          <template slot-scope="scope" slot="goods_supplierForm">
+            <div>
+
+              
+               
+                 <el-input placeholder="选择供货商" label-width="50%" ></el-input>
+             
+              <el-button type="primary" >选择</el-button>
+              
+
+              
+            </div>
+         </template>
+
+
+         </avue-crud>
     </div>
 </template>
 <script>
@@ -44,11 +69,8 @@ export default {
             {
               label:'供应商',
               prop:'goods_supplier',
-               type: "icon-select",
-              iconList: [{
-                label: '基本图表',
-                list: ['23','34','56']
-              }]
+              formslot:true
+            
             }
 
            
@@ -72,9 +94,61 @@ export default {
         //模拟分页
         this.page.total = 40
       },
-      addGoods(){
-        console.log(this.obj)
-      }
+       addGoods(row,done){
+        console.log(row)
+      
+      var arr = Object.keys(row)
+        if(arr.length>0){
+           this.$store.dispatch('AddGoods',row).then(
+             ()=>{
+                this.$message({
+                showClose: true,
+                message: "添加成功",
+                type: "success"
+              });
+              //  关闭弹框
+               done()
+             }
+           )
+
+        }
+        // console.log(this.obj)
+      },
+      updateGoods(row,index,done){
+          this.$store.dispatch('UpdateGoods',{row,index}).then(
+             ()=>{
+                this.$message({
+                showClose: true,
+                message: "更新成功",
+                type: "success"
+              });
+              //  关闭弹框
+               done()
+             }
+           )
+
+           
+
+      },
+	   handelDel(row,index){
+
+         this.$confirm(`是否确认删除商品${row.goods_name}${row.goods_number}`, "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning"
+      })
+        .then(() => {
+
+          this.$store.dispatch('DelGoods',index)
+          this.$message({
+            showClose: true,
+            message: "删除成功",
+            type: "success"
+          });
+        })
+        .catch(() => { });
+     
+    }
     }
 }
 </script>

@@ -54,6 +54,17 @@ const supplier = {
                     })
                   })
               },
+
+              DelSupplier({commit},index){
+                return new Promise((resolve,reject)=>{
+                  delSupplier().then((res)=>{
+                      commit('DEL_SUPPLIER',index)
+                      resolve(res)
+                  }).catch(err=>{
+                    reject(err)
+                  })
+                })
+              }
          
         },
         mutations:{
@@ -67,6 +78,9 @@ const supplier = {
           UPDATA_SUPPLIER:(state,{row,index})=>{
             state.supplierInfo.splice(index,1,row)
           },
+          DEL_SUPPLIER:(state,index)=>{
+            state.supplierInfo.splice(index,1)
+          }
         }
 }
 

@@ -74,6 +74,39 @@ export default ({ mock }) => {
     }
 
   })
+
+  Mock.mock('/shop/addGoods', 'post',()=>{
+    // supplier.push(params)
+    return  {
+        // data: {supplier}
+        data:{
+            success:1
+        }
+    }
+
+    })
+
+
+ 
+Mock.mock('/shop/updateGoods', 'post',()=>{
+    return  {
+        data:{
+            success:1
+        }
+    }
+    })  
+    
+    Mock.mock('/shop/delGoods', 'post',()=>{
+        return  {
+            data:{
+                success:1
+            }
+        }
+        })  
+
+
+       
+
   Mock.mock('/shop/getSupplier', 'get',()=>{
     return  {
         data: {
@@ -101,7 +134,15 @@ export default ({ mock }) => {
                 success:1
             }
         }
-        })   
+        })  
+        
+        Mock.mock('/shop/delSupplier', 'post',()=>{
+            return  {
+                data:{
+                    success:1
+                }
+            }
+            })  
 
 
            

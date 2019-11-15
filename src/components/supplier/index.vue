@@ -7,7 +7,7 @@
           @on-load="onLoad"
            @row-save="addSupplier"
            @row-update="updateSupplier"
-         
+         @row-del="handelDel"
           ref="curd"
            v-model="obj"
            ></avue-crud>
@@ -82,6 +82,11 @@ export default {
         if(arr.length>0){
            this.$store.dispatch('AddSupplier',row).then(
              ()=>{
+                this.$message({
+                showClose: true,
+                message: "添加成功",
+                type: "success"
+              });
               //  关闭弹框
                done()
              }
@@ -93,6 +98,11 @@ export default {
       updateSupplier(row,index,done){
           this.$store.dispatch('UpdateSupplier',{row,index}).then(
              ()=>{
+                this.$message({
+                showClose: true,
+                message: "更新成功",
+                type: "success"
+              });
               //  关闭弹框
                done()
              }
@@ -103,13 +113,15 @@ export default {
       },
 	   handelDel(row,index){
 
-         this.$confirm(`是否确认删除序号为${row.arrange}`, "提示", {
+         this.$confirm(`是否确认删除货商${row.board}`, "提示", {
           confirmButtonText: "确定",
           cancelButtonText: "取消",
           type: "warning"
       })
         .then(() => {
-          this.supplierInfo.splice(index, 1);
+          // this.supplierInfo.splice(index, 1);
+
+          this.$store.dispatch('DelSupplier',index)
           this.$message({
             showClose: true,
             message: "删除成功",
