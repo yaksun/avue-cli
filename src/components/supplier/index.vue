@@ -100,12 +100,8 @@ export default {
 
            
 
-      }
-     
-    },
-
-     
-    handelDel(row,index){
+      },
+	   handelDel(row,index){
 
          this.$confirm(`是否确认删除序号为${row.arrange}`, "提示", {
           confirmButtonText: "确定",
@@ -123,6 +119,11 @@ export default {
         .catch(() => { });
      
     }
+     
+    }
+
+     
+   
     
 
 }
