@@ -10,28 +10,47 @@
            @row-update="updateSupplier"
          @row-del="handelDel"
          @selection-change="selectionChange"
+         @search-change="searchChange"
+         @search-reset="searchReset"
           ref="crud"
            v-model="obj"
            >
 
             
-             <template slot="menuLeft">
-              <el-button type="primary" size="small"  @click.stop="handleAdd()">新增</el-button>
+             <template slot="menuLeft" >
+              <el-button type="primary" size="small"  @click.stop="handleAdd()" v-show="!confirmStatus">新增</el-button>
             </template>
              <template slot="menuLeft">
-              <el-button type="primary" size="small" @click.stop="handleEdit()">编辑</el-button>
+              <el-button type="primary" size="small" @click.stop="handleEdit()" v-show="!confirmStatus">编辑</el-button>
             </template>
             <template slot="menuLeft">
-              <el-button type="primary" size="small" @click.stop="handelDelete()">删除</el-button>
+              <el-button type="primary" size="small" @click.stop="handelDelete()" v-show="!confirmStatus">删除</el-button>
             </template>
+             <template slot="menuLeft">
+              <el-button type="primary" size="small" @click.stop="handelConfirm()" v-show="confirmStatus">确认</el-button>
+            </template>
+              <template slot="search">
+            <el-col :md="6" :xs="24">
+              <el-form-item label="关键字">
+                <el-input placeholder="请输入关键字" size="small" v-model="searchForm.solt" />
+              </el-form-item>
+            </el-col>
+          </template>
+ 
+           
+
            </avue-crud>
     </div>
 </template>
 <script>
 import {mapGetters} from 'vuex'
 export default {
+    props:{
+      confirmStatus:Boolean
+    },
     data() {
       return {
+        searchForm:{},
         page: {
           pageSize: 20
         },
@@ -44,6 +63,10 @@ export default {
           //  menuType:'icon',
           // 隐藏操作栏
          menu:false,
+         //隐藏表格上面的提示
+         tip:false,
+         columnBtn:false,
+         refreshBtn:false,
           // 隐藏原生添加按钮
            addBtn:false,
           selection:true,
@@ -86,11 +109,14 @@ export default {
       }
     },
     mounted(){
+      
       this.data = this.supplierInfo
+      // console.log(this.confirmStatus)
      
     },
        computed:{
-       ...mapGetters(['supplierInfo'])
+       ...mapGetters(['supplierInfo']),
+
     },
     methods: {
       onLoad(page) {
@@ -101,13 +127,14 @@ export default {
        handleAdd(){
         this.$refs.crud.rowAdd();
       },
-      handleRowDBLClick(row, event){
-        // 传入当前行
-        this.$refs.crud.rowEdit(row);
+      handleRowDBLClick(row){
+        // 传入当前行和当前行的下标
+        // 弹出编辑窗口
+        this.$refs.crud.rowEdit(row,row.$index);
       },
     selectionChange(list){
      
-      console.log(list)
+      // console.log(list)
       // 将选取的数据保存到rowData中
       this.rowData=list
      
@@ -137,6 +164,7 @@ export default {
         }else{
            
             // 需要两个参数 当前行和下标
+            // 弹出编辑窗口
         this.$refs.crud.rowEdit(this.rowData[0],this.rowData[0].$index);
      
         }
@@ -169,7 +197,7 @@ export default {
 
           },
       addSupplier(row,done){
-        console.log(row)
+        // console.log(row)
         // var data = {};
         // var arr = Object.keys(data);
         // alert(arr.length == 0); //true 为空， false 不为空
@@ -232,7 +260,56 @@ export default {
         .catch(() => { });
      
     
+      },
+    // 点击搜索按钮触发
+      searchChange(params) {
+         Object.assign(params, this.searchForm)
+         
+            const {supplierInfo,searchForm} = this
+          
+          // 过滤函数filter
+           this.data= supplierInfo.filter(p=>p.board.indexOf(searchForm.solt) !== -1 || p.arrange.indexOf(searchForm.solt) !== -1 || p.contact.indexOf(searchForm.solt) !== -1 )
+
+           
+      
+        //  console.log(this.data)
+      },
+
+      // 点击清空按钮触发
+      searchReset(){
+        this.searchForm={}
+      },
+      // 点击确认的时候触发
+      handelConfirm(){
+          console.log(this.rowData)
+               
+         let i = this.rowData.length
+            if(i==0){
+                  this.$message({
+                  showClose: true,
+                  message: "请选择一行再操作",
+                  type: "warning"
+                });
+                return 
+            }else if(i>1){
+                  this.$message({
+                  showClose: true,
+                  message: "一次不能选择多行",
+                  type: "warning"
+                });
+                return 
+            }else{
+
+              
+              //  触发父组件的方法
+               this.$emit('closeDialog')   
+               this.toggleSelection()
+            
+         
+            }
+         
       }
+
      
     }
 

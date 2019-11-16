@@ -11,7 +11,7 @@
                         title="供货商" 
                         :visible.sync="dialogTableVisible"
                         >
-                                <Supplier />
+                                <Supplier :confirmStatus="dialogTableVisible"  @closeDialog="dialogTableVisible=false"/>
                             </el-dialog>
                </el-form-item>
 
@@ -22,7 +22,7 @@ import Supplier from '../supplier'
 export default {
     data(){
         return {
-                dialogTableVisible: false,
+                dialogTableVisible: false
         }
     },
     methods:{
