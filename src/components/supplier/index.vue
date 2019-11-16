@@ -5,12 +5,26 @@
          :data="data" 
          :page="page"
           @on-load="onLoad"
+          @row-dblclick="handleRowDBLClick"
            @row-save="addSupplier"
            @row-update="updateSupplier"
          @row-del="handelDel"
-          ref="curd"
+         @selection-change="selectionChange"
+          ref="crud"
            v-model="obj"
-           ></avue-crud>
+           >
+
+            
+             <template slot="menuLeft">
+              <el-button type="primary" size="small"  @click.stop="handleAdd()">新增</el-button>
+            </template>
+             <template slot="menuLeft">
+              <el-button type="primary" size="small" @click.stop="handleEdit()">编辑</el-button>
+            </template>
+            <template slot="menuLeft">
+              <el-button type="primary" size="small" @click.stop="handelDelete()">删除</el-button>
+            </template>
+           </avue-crud>
     </div>
 </template>
 <script>
@@ -24,8 +38,19 @@ export default {
         obj:{
 
         },
+        rowData:[],
         option: {
+          // 操作栏图标显示
           //  menuType:'icon',
+          // 隐藏操作栏
+         menu:false,
+          // 隐藏原生添加按钮
+           addBtn:false,
+          selection:true,
+          // 清空按钮隐藏
+          selectClearBtn:false,
+          // 操作后清空选中数据
+          // reserveSelection:false,
           border: true,
           index: true,
           expandLevel: 3,
@@ -72,6 +97,77 @@ export default {
         //模拟分页
         this.page.total = 40
       },
+
+       handleAdd(){
+        this.$refs.crud.rowAdd();
+      },
+      handleRowDBLClick(row, event){
+        // 传入当前行
+        this.$refs.crud.rowEdit(row);
+      },
+    selectionChange(list){
+     
+      console.log(list)
+      // 将选取的数据保存到rowData中
+      this.rowData=list
+     
+   
+    },
+    // 操作完成后取消之前的选择
+     toggleSelection(val){
+        this.$refs.crud.toggleSelection(val);
+      },
+      handleEdit(){
+        // console.log(this.rowData)
+        let i = this.rowData.length
+        if(i==0){
+              this.$message({
+              showClose: true,
+              message: "请选择一行再操作",
+              type: "warning"
+            });
+            return 
+        }else if(i>1){
+               this.$message({
+              showClose: true,
+              message: "一次不能选择多行",
+              type: "warning"
+            });
+            return 
+        }else{
+           
+            // 需要两个参数 当前行和下标
+        this.$refs.crud.rowEdit(this.rowData[0],this.rowData[0].$index);
+     
+        }
+
+         
+      },
+       handelDelete(){
+            let i = this.rowData.length
+            if(i==0){
+                  this.$message({
+                  showClose: true,
+                  message: "请选择一行再操作",
+                  type: "warning"
+                });
+                return 
+            }else if(i>1){
+                  this.$message({
+                  showClose: true,
+                  message: "一次不能选择多行",
+                  type: "warning"
+                });
+                return 
+            }else{
+               
+                  // 需要两个参数 当前行和下标
+            this.handelDel( this.rowData[0],this.rowData[0].$index)
+            
+         
+            }
+
+          },
       addSupplier(row,done){
         console.log(row)
         // var data = {};
@@ -105,12 +201,15 @@ export default {
               });
               //  关闭弹框
                done()
+                this.toggleSelection()
              }
            )
 
            
 
       },
+
+     
 	   handelDel(row,index){
 
          this.$confirm(`是否确认删除货商${row.board}`, "提示", {
@@ -127,10 +226,13 @@ export default {
             message: "删除成功",
             type: "success"
           });
+           this.toggleSelection()
+
         })
         .catch(() => { });
      
-    }
+    
+      }
      
     }
 

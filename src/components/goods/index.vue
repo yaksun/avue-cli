@@ -11,17 +11,7 @@
          >
          
           <template slot-scope="scope" slot="goods_supplierForm">
-            <div>
-
-              
-               
-                 <el-input placeholder="选择供货商" label-width="50%" ></el-input>
-             
-              <el-button type="primary" >选择</el-button>
-              
-
-              
-            </div>
+            <SupplierList />
          </template>
 
 
@@ -30,6 +20,7 @@
 </template>
 <script>
 import {mapGetters} from 'vuex'
+import SupplierList from '../supplierList'
 export default {
     data() {
       return {
@@ -80,6 +71,9 @@ export default {
         },
         
       }
+    },
+    components:{
+      SupplierList
     },
     mounted(){
        this.data = this.goodsInfo
