@@ -14,7 +14,7 @@ var goods = [
         goods_number:'7499',
         goods_color:'黑',
         goods_size:'37',
-        goods_supplier:'兰州东部鞋城103号'
+        supplier:'兰州东部鞋城103号'
 
     },
     {
@@ -23,7 +23,7 @@ var goods = [
         goods_number:'7499',
         goods_color:'黑',
         goods_size:'36',
-        goods_supplier:'兰州东部鞋城277号'
+        supplier:'兰州东部鞋城277号'
 
     },
 

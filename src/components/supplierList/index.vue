@@ -2,7 +2,7 @@
     <div>
             <!-- append-to-body  嵌套弹框顶级显示 -->
                <el-form-item >
-                     <el-input placeholder="选择供货商" style="width:50%;float:left" ></el-input>
+                     <el-input placeholder="选择供货商" style="width:50%;float:left" v-model="row[0].supplier"></el-input>
                     <el-button type="primary" style="float:left" @click="dialogTableVisible = true">选择</el-button>
                     
                         <el-dialog 
@@ -20,6 +20,9 @@
 <script>
 import Supplier from '../supplier'
 export default {
+    props:{
+        row:Array
+    },
     data(){
         return {
                 dialogTableVisible: false
