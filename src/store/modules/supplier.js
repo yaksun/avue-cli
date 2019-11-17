@@ -1,11 +1,12 @@
 
-import { getSupplierInfo,addSupplier,updateSupplier,delSupplier} from '@/api/shop'
+import { getSupplierInfo,addSupplier,updateSupplier,delSupplier,updateItem} from '@/api/shop'
 
 
 
 const supplier = {
         state:{
-            supplierInfo: []
+            supplierInfo: [],
+            supplierItem:{}
            
         },
       
@@ -64,6 +65,16 @@ const supplier = {
                     reject(err)
                   })
                 })
+              },
+              UpdateItem({commit},row){
+                return new Promise((resolve,reject)=>{
+                    updateItem().then((res)=>{
+                         commit('UPDATE_ITEM',row)
+                        resolve(res)
+                    }).catch(err=>{
+                      reject(err)
+                    })
+                })
               }
          
         },
@@ -80,6 +91,9 @@ const supplier = {
           },
           DEL_SUPPLIER:(state,index)=>{
             state.supplierInfo.splice(index,1)
+          },
+          UPDATE_ITEM:(state,row)=>{
+            state.supplierItem = row
           }
         }
 }

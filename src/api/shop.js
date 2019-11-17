@@ -48,5 +48,11 @@ export const delSupplier = () => request({
     
 })
 
+export const updateItem = () => request({
+    url: '/shop/updateItem',
+    method: 'post',
+    
+})
+
 
 

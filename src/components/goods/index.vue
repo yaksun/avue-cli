@@ -104,7 +104,7 @@ export default {
       
     },
        computed:{
-       ...mapGetters(['goodsInfo','supplierInfo'])
+       ...mapGetters(['goodsInfo','supplierItem'])
     },
     methods: {
       onLoad(page) {
@@ -114,13 +114,20 @@ export default {
 
       
        handleAdd(){
+          let i = this.rowData.length
+          if(i>0){
+              this.toggleSelection()
+          }
         this.$refs.crud.rowAdd();
       },
+
        addGoods(row,done){
-        console.log(row)
+        // console.log(row)
       
       var arr = Object.keys(row)
         if(arr.length>0){
+          // console.log(this.supplierItem)
+          row.supplier = this.supplierItem[0].board
            this.$store.dispatch('AddGoods',row).then(
              ()=>{
                 this.$message({
@@ -137,7 +144,8 @@ export default {
         // console.log(this.obj)
       },
       updateGoods(row,index,done){
-        console.log(row)
+        // console.log(row)
+         row.supplier = this.supplierItem[0].board
           this.$store.dispatch('UpdateGoods',{row,index}).then(
              ()=>{
                 this.$message({
@@ -147,6 +155,8 @@ export default {
               });
               //  关闭弹框
                done()
+              //  清空选框数据
+               this.toggleSelection()
              }
            )
 
@@ -163,6 +173,7 @@ export default {
         .then(() => {
 
           this.$store.dispatch('DelGoods',index)
+          this.toggleSelection()
           this.$message({
             showClose: true,
             message: "删除成功",

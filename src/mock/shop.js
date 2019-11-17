@@ -142,7 +142,15 @@ Mock.mock('/shop/updateGoods', 'post',()=>{
                     success:1
                 }
             }
-            })  
+            }) 
+            
+            Mock.mock('/shop/updateItem', 'post',()=>{
+                return  {
+                    data:{
+                        success:1
+                    }
+                }
+                })      
 
 
            

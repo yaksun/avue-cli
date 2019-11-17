@@ -281,7 +281,7 @@ export default {
       },
       // 点击确认的时候触发
       handelConfirm(){
-          console.log(this.rowData)
+          // console.log(this.rowData)
                
          let i = this.rowData.length
             if(i==0){
@@ -303,6 +303,8 @@ export default {
               
               //  触发父组件的方法
                this.$emit('closeDialog')   
+               this.$emit('changeInfo',this.rowData)
+               this.$store.dispatch('UpdateItem',this.rowData)
                this.toggleSelection()
             
          

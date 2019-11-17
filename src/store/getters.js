@@ -23,7 +23,8 @@ const getters = {
   logsLen: state => state.logs.logsList.length || 0,
   logsFlag: (state, getters) => getters.logsLen === 0,
   goodsInfo:state => state.goods.goodsInfo,
-  supplierInfo:state => state.supplier.supplierInfo
+  supplierInfo:state => state.supplier.supplierInfo,
+  supplierItem:state => state.supplier.supplierItem
  
 }
 export default getters
