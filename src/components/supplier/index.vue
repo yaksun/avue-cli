@@ -6,6 +6,7 @@
          :page="page"
           @on-load="onLoad"
           @row-dblclick="handleRowDBLClick"
+          @row-click="handelClick"
            @row-save="addSupplier"
            @row-update="updateSupplier"
          @row-del="handelDel"
@@ -46,7 +47,8 @@
 import {mapGetters} from 'vuex'
 export default {
     props:{
-      confirmStatus:Boolean
+      confirmStatus:Boolean,
+      
     },
     data() {
       return {
@@ -123,14 +125,25 @@ export default {
         //模拟分页
         this.page.total = 40
       },
+      // 当单击每行时触发
+      handelClick(row){
+        this.$refs.crud.toggleSelection([row])
+      },
 
        handleAdd(){
         this.$refs.crud.rowAdd();
       },
       handleRowDBLClick(row){
-        // 传入当前行和当前行的下标
-        // 弹出编辑窗口
-        this.$refs.crud.rowEdit(row,row.$index);
+        // console.log(this.confirmStatus)
+        if(this.confirmStatus){
+          return
+        }else{
+
+                 // 传入当前行和当前行的下标
+            // 弹出编辑窗口
+            this.$refs.crud.rowEdit(row,row.$index);
+        }
+       
       },
     selectionChange(list){
      
@@ -267,9 +280,13 @@ export default {
          
             const {supplierInfo,searchForm} = this
           
-          // 过滤函数filter
+          if(Object.keys(searchForm).length){
+            // 过滤函数filter
            this.data= supplierInfo.filter(p=>p.board.indexOf(searchForm.solt) !== -1 || p.arrange.indexOf(searchForm.solt) !== -1 || p.contact.indexOf(searchForm.solt) !== -1 )
 
+          }else{
+            this.data = supplierInfo
+          }
            
       
         //  console.log(this.data)

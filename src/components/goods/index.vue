@@ -8,7 +8,11 @@
          @row-save="addGoods"
           @row-update="updateGoods"
          @row-del="handelDel"
+           @row-dblclick="handleRowDBLClick"
+          @row-click="handelClick"
           @selection-change="selectionChange"
+           @search-change="searchChange"
+         @search-reset="searchReset"
          ref="crud"
          >
               
@@ -21,8 +25,17 @@
             <template slot="menuLeft">
               <el-button type="primary" size="small" @click.stop="handelDelete()">删除</el-button>
             </template>
+             
+             <template slot="search">
+            <el-col :md="6" :xs="24">
+              <el-form-item label="关键字">
+                <el-input placeholder="请输入关键字" size="small" v-model="searchForm.solt" />
+              </el-form-item>
+            </el-col>
+          </template>
+          
           <template slot-scope="scope" slot="supplierForm">
-            <SupplierList :row="rowData"/>
+            <SupplierList :row="rowData" />
          </template>
 
 
@@ -35,6 +48,7 @@ import SupplierList from '../supplierList'
 export default {
     data() {
       return {
+         searchForm:{},
         page: {
           pageSize: 20
         },
@@ -107,6 +121,40 @@ export default {
        ...mapGetters(['goodsInfo','supplierItem'])
     },
     methods: {
+       handleRowDBLClick(row){
+        // 传入当前行和当前行的下标
+        // 弹出编辑窗口
+        this.$refs.crud.rowEdit(row,row.$index);
+      },
+      // 当单击每行时触发
+      handelClick(row){
+        this.$refs.crud.toggleSelection([row])
+      },
+       // 点击搜索按钮触发
+      searchChange(params) {
+        
+         Object.assign(params, this.searchForm)
+         
+            const {goodsInfo,searchForm} = this
+
+            // console.log(Object.keys(searchForm).length)
+          if(Object.keys(searchForm).length){
+              // 过滤函数filter
+             this.data= goodsInfo.filter(p=>p.goods_name.indexOf(searchForm.solt) !== -1  || p.goods_number.indexOf(searchForm.solt) !== -1 )
+
+          }else{
+            this.data = goodsInfo
+          }
+         
+           
+      
+        //  console.log(this.data)
+      },
+
+       // 点击清空按钮触发
+      searchReset(){
+        this.searchForm={}
+      },
       onLoad(page) {
         //模拟分页
         this.page.total = 40

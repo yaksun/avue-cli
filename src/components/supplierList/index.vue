@@ -14,7 +14,9 @@
                                 <Supplier 
                                 :confirmStatus="dialogTableVisible" 
                                  @closeDialog="dialogTableVisible=false"
-                                  @changeInfo="changeSupplier"/>
+                                  @changeInfo="changeSupplier"
+                                 
+                                  />
                             </el-dialog>
                </el-form-item>
 
@@ -24,7 +26,8 @@
 import Supplier from '../supplier'
 export default {
     props:{
-        row:Array
+        row:Array,
+       
     },
     data(){
         return {
