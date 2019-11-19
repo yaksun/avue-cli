@@ -14,6 +14,8 @@ var goods = [
         goods_number:'7499',
         goods_color:'黑',
         goods_size:'37',
+        inPrice:100,
+        outPrice:129,
         supplier:'兰州东部鞋城103号'
 
     },
@@ -23,6 +25,8 @@ var goods = [
         goods_number:'7499',
         goods_color:'黑',
         goods_size:'36',
+        inPrice:110,
+        outPrice:139,
         supplier:'兰州东部鞋城277号'
 
     },

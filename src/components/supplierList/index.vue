@@ -24,7 +24,11 @@
 </template>
 <script>
 import Supplier from '../supplier'
+import {mapGetters} from 'vuex'
 export default {
+    // mounted(){
+    //     console.log(this.supplierItem)
+    // },
     props:{
         row:Array,
        
@@ -33,6 +37,7 @@ export default {
         return {
                 dialogTableVisible: false,
                 temp:[]
+               
                 
         }
     },
@@ -43,19 +48,25 @@ export default {
        
     },
     computed:{
+        ...mapGetters(['supplierItem']),
         supplierInfo:{
+           
+            // get(){
+            //     return this.supplierItem.supplier
+            // }
+
             get(){
                 if(this.temp.length==0){
-                     return this.row.length > 0 ? this.row[0].supplier : ''
+                    return this.supplierItem.supplier
 
                 }else{
                     return this.temp[0].board
                 }
             },
 
-            set(){
+            // set(){
 
-            }
+            // }
         }
     },
     components:{

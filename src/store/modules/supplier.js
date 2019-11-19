@@ -66,6 +66,8 @@ const supplier = {
                   })
                 })
               },
+
+              // 保存货商信息
               UpdateItem({commit},row){
                 return new Promise((resolve,reject)=>{
                     updateItem().then((res)=>{

@@ -45,6 +45,7 @@
 <script>
 import {mapGetters} from 'vuex'
 import SupplierList from '../supplierList'
+import { async } from 'q'
 export default {
     data() {
       return {
@@ -94,6 +95,14 @@ export default {
                 label: '尺码',
                 prop: 'goods_size',
             },
+             {
+                label: '进价',
+                prop: 'inPrice',
+            },
+             {
+                label: '卖价',
+                prop: 'outPrice',
+            },
             {
               label:'供应商',
               prop:'supplier',
@@ -124,7 +133,12 @@ export default {
        handleRowDBLClick(row){
         // 传入当前行和当前行的下标
         // 弹出编辑窗口
-        this.$refs.crud.rowEdit(row,row.$index);
+     this.$store.dispatch('UpdateItem',row).then((res)=>{
+           if(res.status == 200){
+              this.$refs.crud.rowEdit(row,row.$index);
+           }
+        })
+       
       },
       // 当单击每行时触发
       handelClick(row){
@@ -235,6 +249,7 @@ export default {
      handleEdit(){
         // console.log(this.rowData)
         let i = this.rowData.length
+        const {rowData} = this
         if(i==0){
               this.$message({
               showClose: true,
@@ -250,10 +265,12 @@ export default {
             });
             return 
         }else{
-           
-            // 需要两个参数 当前行和下标
-            // 弹出编辑窗口
-        this.$refs.crud.rowEdit(this.rowData[0],this.rowData[0].$index);
+             this.$store.dispatch('UpdateItem',rowData[0]).then(()=>{
+                          // 需要两个参数 当前行和下标
+                // 弹出编辑窗口
+          this.$refs.crud.rowEdit(rowData[0],rowData[0].$index);
+             })
+     
      
         }
 
