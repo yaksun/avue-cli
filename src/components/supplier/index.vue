@@ -19,13 +19,13 @@
 
             
              <template slot="menuLeft" >
-              <el-button type="primary" size="small"  @click.stop="handleAdd()" v-show="!confirmStatus">新增</el-button>
+              <el-button type="primary" size="small"  @click.stop="handleAdd()" v-show="status"  >新增</el-button>
             </template>
              <template slot="menuLeft">
-              <el-button type="primary" size="small" @click.stop="handleEdit()" v-show="!confirmStatus">编辑</el-button>
+              <el-button type="primary" size="small" @click.stop="handleEdit()" v-show="status">编辑</el-button>
             </template>
             <template slot="menuLeft">
-              <el-button type="primary" size="small" @click.stop="handelDelete()" v-show="!confirmStatus">删除</el-button>
+              <el-button type="primary" size="small" @click.stop="handelDelete()" v-show="status">删除</el-button>
             </template>
              <template slot="menuLeft">
               <el-button type="primary" size="small" @click.stop="handelConfirm()" v-show="confirmStatus">确认</el-button>
@@ -48,6 +48,7 @@ import {mapGetters} from 'vuex'
 export default {
     props:{
       confirmStatus:Boolean,
+      visible:Boolean
       
     },
     data() {
@@ -118,6 +119,10 @@ export default {
     },
        computed:{
        ...mapGetters(['supplierInfo']),
+       status(){
+         return    !this.visible && !this.confirmStatus  
+       },
+      
 
     },
     methods: {
@@ -135,7 +140,7 @@ export default {
       },
       handleRowDBLClick(row){
         // console.log(this.confirmStatus)
-        if(this.confirmStatus){
+        if(this.confirmStatus || this.visible){
           return
         }else{
 

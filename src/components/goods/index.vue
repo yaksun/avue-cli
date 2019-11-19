@@ -17,19 +17,19 @@
          >
               
              <template slot="menuLeft" >
-              <el-button type="primary" size="small"  @click.stop="handleAdd()" >新增</el-button>
+              <el-button type="primary" size="small"  @click.stop="handleAdd()" v-show="!visible" >新增</el-button>
             </template>
             <template slot="menuLeft">
-              <el-button type="primary" size="small" @click.stop="handleEdit()">编辑</el-button>
+              <el-button type="primary" size="small" @click.stop="handleEdit()" v-show="!visible">编辑</el-button>
             </template>
             <template slot="menuLeft">
-              <el-button type="primary" size="small" @click.stop="handelDelete()">删除</el-button>
+              <el-button type="primary" size="small" @click.stop="handelDelete()" v-show="!visible">删除</el-button>
             </template>
              
-             <template slot="search">
+             <template slot="search" >
             <el-col :md="6" :xs="24">
-              <el-form-item label="关键字">
-                <el-input placeholder="请输入关键字" size="small" v-model="searchForm.solt" />
+              <el-form-item label="关键字" >
+                <el-input placeholder="请输入关键字" size="small" v-model="searchForm.solt"  />
               </el-form-item>
             </el-col>
           </template>
@@ -45,8 +45,10 @@
 <script>
 import {mapGetters} from 'vuex'
 import SupplierList from '../supplierList'
-import { async } from 'q'
 export default {
+  props:{
+    visible:Boolean
+  },
     data() {
       return {
          searchForm:{},
@@ -130,14 +132,22 @@ export default {
        ...mapGetters(['goodsInfo','supplierItem'])
     },
     methods: {
+
+      
+
        handleRowDBLClick(row){
-        // 传入当前行和当前行的下标
-        // 弹出编辑窗口
-     this.$store.dispatch('UpdateItem',row).then((res)=>{
-           if(res.status == 200){
-              this.$refs.crud.rowEdit(row,row.$index);
-           }
-        })
+         if(this.visible){
+           return
+         }else{
+             // 传入当前行和当前行的下标
+              // 弹出编辑窗口
+            this.$store.dispatch('UpdateItem',row).then((res)=>{
+                if(res.status == 200){
+                    this.$refs.crud.rowEdit(row,row.$index);
+                }
+              })
+         }
+       
        
       },
       // 当单击每行时触发
