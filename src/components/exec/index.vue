@@ -26,8 +26,8 @@
                        
          </basic-container>
 
-                    <GoodsForm  v-if="this.type" :visible="showTag" />
-                   <SupplierForm  v-else :visible="showTag"/>
+                    <GoodsForm  v-if="this.type" :visible="showTag" @getInfo="getInfo"/>
+                   <SupplierForm  v-else :visible="showTag"  @getInfo="getInfo"/>
 
        
  
@@ -38,27 +38,31 @@
 import GoodsForm from '../goods'
 import SupplierForm from '../supplier'
 import {mapGetters} from 'vuex'
+import { async } from 'q'
 
 export default {
-  
+   
 
      data(){
             return {
                 
                     showTag:true,
                     type:'',
-                   options: [
-                       {
-                        value: 'type1',
-                        label: '供货商档案',
-                        }, 
+                    options: [
                         {
-                        value: 'type2',
-                        label: '商品档案',
-                        }
-                    ],
+                            value: 'type1',
+                            label: '供货商档案',
+                            }, 
+                            {
+                            value: 'type2',
+                            label: '商品档案',
+                            }
+                        ],
 
-                 value: 'type2',
+                      value: 'type2',
+                    option:[],
+                    list:[],
+                  
 
                     
               
@@ -91,10 +95,19 @@ export default {
   
     
     methods: {
+        // 获取商品子组件信息
+        getInfo(val){
+            // console.log(val)
+            this.list = val.data
+            this.option = val.option
+         
+        },
       handleSwitch(){
-        
-
+      
         this.type=!this.type;
+       
+           
+      
         
        
       },
@@ -132,14 +145,55 @@ export default {
        
         // 导入execl
         handleChange(file, fileLis) {
+           const {option} = this
+          var _this=this 
+          
+        this.$export.xlsx(file.raw).then(data=>{
+            // 首先判断导入的表中字段和页面选取的表是否一致
+              
 
-            console.log(file,fileLis)
-        this.$export.xlsx(file.raw)
-            .then(data => {
 
-                console.log(data.results)
-            // this.list = data.results;
-            })
+            function getData(){
+                var newArr=[]
+
+                for(let i = 0 ;i< option.column.length;i++){
+                    
+                    if(option.column[i]['label'] != data.header[i] ){
+                            newArr.push(option.column[i])
+                        
+                    }
+
+                
+                }
+
+                return newArr
+
+            }
+            
+
+            function showData(data){
+                
+                var str=''
+                for(var i =0 ;i<data.length;i++){
+                    str+=(data[i].prop+',')
+                }
+                _this.$message({
+                showClose: true,
+                message: str+'字段不存在',
+                type: "warning"
+                })
+
+            }
+            
+
+        
+          showData(getData())
+
+
+                // console.log(data)
+        })
+              
+            
         }
     }
 }

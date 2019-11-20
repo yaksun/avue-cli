@@ -46,6 +46,7 @@
 import {mapGetters} from 'vuex'
 import SupplierList from '../supplierList'
 export default {
+
   props:{
     visible:Boolean
   },
@@ -125,6 +126,8 @@ export default {
     },
     mounted(){
        this.data = this.goodsInfo
+        const {data,option} = this
+       this.$emit('getInfo',{data,option})
       
       
     },

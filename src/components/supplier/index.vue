@@ -115,6 +115,8 @@ export default {
       
       this.data = this.supplierInfo
       // console.log(this.confirmStatus)
+         const {data,option} = this
+        this.$emit('getInfo',{data,option})
      
     },
        computed:{
